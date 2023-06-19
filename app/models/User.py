@@ -40,6 +40,7 @@ class User(Base):
   def validate_password(self, key, password):
     assert len(password) > 4
 
-  # encrypt password
+  # encrypt password, then test by running seeds.py & mysql -u root -p in terminal
+  # MySQL shell: USE python_news_db; + SELECT * FROM users;
     return bcrypt.hashpw(password.encode('utf-8'), salt)
   
