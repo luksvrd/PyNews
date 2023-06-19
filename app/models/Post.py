@@ -7,9 +7,6 @@ from sqlalchemy.orm import relationship
 
 class Post(Base):
   __tablename__ = 'posts'
-  # user = relationship() is a SQLAlchemy relationship that connects Post to the User model
-  # The relationship() function takes 2 arguments: the model we're relating to and the back_populates argument that references the relationship() function in the User model
-  user = relationship('User')
   id = Column(Integer, primary_key=True)
   title = Column(String(100), nullable=False)
   post_url = Column(String(100), nullable=False)
@@ -18,3 +15,36 @@ class Post(Base):
   # added created_at and updated_at columns that use Pythons built in datetime module to generate timestamps
   created_at = Column(DateTime, default=datetime.now)
   updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
+
+  # user = relationship() is a SQLAlchemy relationship that connects Post to the User model
+  user = relationship('User')
+  # the Post model includes a dynamic relationship to the Comment model, meaning that a query for a comment should also include information about the author
+  # the cascade='all,delete' argument in the relationship() function means that when a post is deleted, all of its associated comments should be deleted as well
+  comments = relationship('Comment', cascade='all,delete')
+
+# The Post model now has two defined relationships: one for users and one for comments. 
+# Querying for a post returns both data subsets. 
+# Bc the comments model also defines a relationship, querying for a post returns the comment-to-user subset as well.
+
+# The following JSON helps conceptualize this data structure:
+# {
+#   "id": 1,
+#   "title": "How to Learn Python",
+#   "user_id": 2,
+#   "user": {
+#     "id": 2,
+#     "username": "lernantino" // post author
+#   },
+#   "comments": [
+#     {
+#       "id": 1,
+#       "comment_text": "Great article!",
+#       "post_id": 1,
+#       "user_id": 3,
+#       "user": {
+#         "id": 3,
+#         "username": "someone_else" // comment author
+#       }
+#     }
+#   ]
+# }
