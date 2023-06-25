@@ -1,4 +1,4 @@
-from app.models import User, Post, Comment
+from app.models import User, Post, Comment, Vote
 # this is where the db variables we created in the db/__init__.py file come into play
 # we import the Session and engine variables from the db package so that we can use them to interact with the database
 # The code uses the Base class together with the engine variable to do 2 things:
@@ -42,6 +42,17 @@ db.add_all([
   Comment(comment_text='Aliquam erat volutpat. In congue.', user_id=2, post_id=1),
   Comment(comment_text='Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam.', user_id=2, post_id=3),
   Comment(comment_text='In hac habitasse platea dictumst.', user_id=3, post_id=3)
+])
+
+db.commit()
+
+# insert votes
+db.add_all([
+  Vote(user_id=1, post_id=2),
+  Vote(user_id=1, post_id=4),
+  Vote(user_id=2, post_id=4),
+  Vote(user_id=3, post_id=4),
+  Vote(user_id=4, post_id=2)
 ])
 
 db.commit()
