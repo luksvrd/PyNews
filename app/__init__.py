@@ -40,3 +40,10 @@ def create_app(test_config=None):
   app.register_blueprint(dashboard)
 
   return app
+
+# Access the MySQL shell by running (mysql -u root -p) in the terminal pw sql
+# To create a new database, run (CREATE DATABASE python_news_db;) then exit
+# We're doing the rest in Python and an ROM called SQLAlchemy which we need to install
+# Start virtual server by (. venv/bin/activate) & then Run (pip install sqlalchemy pymysql python-dotenv) to install necessary dependencies
+# Next, create a .env file in the root directory and add the following:
+# (DB_URL=mysql+pymysql://root:sql@localhost/python_news_db)
