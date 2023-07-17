@@ -13,6 +13,8 @@ from flask import Flask
 # If we didnt import and rename the home blueprint in the routes __init__.py file, we would have to import it like this:
 # from app.routes.home import bp as home
 from app.routes import home, dashboard
+# importing the init_db() function to
+from app.db import init_db
 
 # Note that a 2x space indentation signifies a code block in Python, not curly braces
 # Here we a new app variable and set some initial Flask configuration
@@ -38,6 +40,8 @@ def create_app(test_config=None):
   # after registering each blueprint, in the terminal run export FLASK_APP=app then python3 -m flask run
   app.register_blueprint(home)
   app.register_blueprint(dashboard)
+  # Call the init_db() function to initialize the database
+  init_db()
 
   return app
 
