@@ -21,8 +21,10 @@ Session = sessionmaker(bind=engine)
 Base = declarative_base()
 
 # initialize the database
-def init_db():
+def init_db(app):
   Base.metadata.create_all(engine)
+
+  app.teardown_appcontext(close_db) # close db connection when app context ends
 
 # get_db() func saves the current db connection on the g object
 def get_db():
@@ -30,5 +32,14 @@ def get_db():
   if 'db' not in g:
     # store db connection in app context
     g.db = Session()
+
+# leveraging the @app context processor to close the conn when the request officially terminates
+# Adding a teardown function to close the db connection when the app context ends
+def close_db(e=None):
+  # pop() method finds & removes db from g object. if db =/= none, then db.close() is ends connection
+  db = g.pop('db', None)
+
+  if db is not None:
+    db.close()
 
   return g.db
