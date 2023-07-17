@@ -1,14 +1,26 @@
 from flask import Blueprint, render_template
 # home.py is a Python Module because it has a .py extension & its belongs to the routes package
-
+from app.models import Post
+from app.db import get_db
 # Blueprint() lets us consolidate routes into a single file
 # This corresponds to using Router() in Express
 bp = Blueprint('home', __name__, url_prefix='/')
+
+
 # @bp is a decorator that tells Flask what URL to trigger the function
 @bp.route('/')
 # def index() is the function that will be triggered when the URL is visited
 def index():
-  return render_template('homepage.html')
+  # get all posts
+  # get_db() resturns a session connection tied to routes context
+  db = get_db()
+  # Use query() method to query the Post model in descending order
+  posts = db.query(Post).order_by(Post.created_at.desc()).all()
+
+  return render_template(
+    'homepage.html',
+    posts=posts
+  )
 
 @bp.route('/login')
 def login():
