@@ -7,16 +7,19 @@ from app.db import get_db
 bp = Blueprint('home', __name__, url_prefix='/')
 
 
-# @bp is a decorator that tells Flask what URL to trigger the function
+# @bp is a decorator that tells Flask to associate the / URL path with the index() function
+# decorators are used to define routes and bind them to specific functions
 @bp.route('/')
-# def index() is the function that will be triggered when the URL is visited
+# def index() is the function that will be triggered when the URL path / is visited
 def index():
   # get all posts
-  # get_db() resturns a session connection tied to routes context
+  # calls get_db() function to retrieve a database connection object
   db = get_db()
-  # Use query() method to query the Post model in descending order
+  # Query to fetch all posts from the db and order them by their created_at attribute in descending order. 
+  # The result of the query is assigned to the posts variable.
   posts = db.query(Post).order_by(Post.created_at.desc()).all()
-
+  # The render_template() function is provided by Flask and is used to generate HTML content using Jinja2 templating engine.
+  # pass the 'homepage.html' template and the posts variable as template parameters
   return render_template(
     'homepage.html',
     posts=posts
@@ -26,13 +29,21 @@ def index():
 def login():
   return render_template('login.html')
 
-# <id> is a dynamic parameter that will be passed into the function 
+# <id> is a dynamic parameter that will captured from the URL and passed as an argument to the function
 @bp.route('/post/<id>')
-# single(id) is the function parameter that will be passed into the function
+# single(id) takes the id parameter, which corresponds to the dynamic part of the URL path
 def single(id):
-#   whatever is returned from the function will be rendered in the browser
-#   in this case, the single-post.html template
-  return render_template('single-post.html')
+  # query the Post model based on the provided id. 
+  # The filter() method filters the posts based on the condition Post.id == id. 
+  # The one() method fetches the single post that matches the filter condition.
+  # once template is rendered, the context for route terminates & teardown cluses db conn.
+  db = get_db()
+  post = db.query(Post).filter(Post.id == id).one()
+  # pass the 'single-post.html' template and the post variable as template parameters
+  return render_template(
+    'single-post.html',
+    post=post
+  )
 
 # You can import any variables or functions defined in Python Modules into other modules or files
 # We only care about the bp variable thanks to the @bp.route() decorator, so we import it like this:

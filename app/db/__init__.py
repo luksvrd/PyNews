@@ -26,12 +26,14 @@ def init_db(app):
 
   app.teardown_appcontext(close_db) # close db connection when app context ends
 
-# get_db() func saves the current db connection on the g object
+# get_db() to ensure that each request has access to a valid database conn. object
 def get_db():
-  # uf db not in g means if db connection not already stored in app context, create it
+  # if db key not in g object, create a new db connection object using the Session() class from SQLAl
   if 'db' not in g:
     # store db connection in app context
     g.db = Session()
+    # return db conn. so routes & functions can use it. Perform CRUD operations on db conn.
+    return g.db
 
 # leveraging the @app context processor to close the conn when the request officially terminates
 # Adding a teardown function to close the db connection when the app context ends
@@ -41,5 +43,4 @@ def close_db(e=None):
 
   if db is not None:
     db.close()
-
-  return g.db
+    # No need for return g.db here bc this is a teardown function, not a route handler
