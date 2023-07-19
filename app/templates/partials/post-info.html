@@ -1,11 +1,14 @@
 <article class="post">
   <div class="title">
     <a href="{{post.post_url}}" target="_blank">{{post.title}}</a>
-    <span>({{post.post_url}})</span>
+    <!-- Passing post.post_url as the arg to format_url() func -->
+    <span>({{post.post_url|format_url}})</span>
   </div>
   <div class="meta">
-    {{post.vote_count}} point(s) by {{post.user.username}} on {{post.created_at}}
+    <!-- format_plural() reqs 2 arg. 1st the vote_count disp the #, 2nd we use the format_plural() filter followed by 2nd arg of 'point' to return plural or singular form -->
+    {{post.vote_count}} {{post.vote_count|format_plural('point')}} by {{post.user.username}} on {{post.created_at|format_date}}
     |
-    <a href="/post/{{post.id}}">{{post.comments|length}} comment(s)</a>
+    <!-- syntax (post.comments|length) is how jinja prints length of an array. Filter starts at 2nd | -->
+    <a href="/post/{{post.id}}">{{post.comments|length}} {{post.comments|length|format_plural('comment')}}</a>
   </div>
 </article>
