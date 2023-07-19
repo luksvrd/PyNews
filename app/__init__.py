@@ -4,10 +4,11 @@
 # The __init__.py file is required to treat the app directory as a package.
 # It corresponds to the index.js file in Node.js, or the server.js file in Express
 # When Flask runs the "app" package, it looks for the __init__.py file and runs it
-# Then tries to call the create_app() function, so must define it
+# Then tries to call the create_app() function, so we must define it
+
 # Importing Flask so we can use the Flask() constructor function, then use def keyword to define the create_app() function
 # To start the Flask server, first (export FLASK_APP=app) environment variable,
-# Then run run (python3 -m flask run) in the terminal (default port is 5000)
+# Then run (python3 -m flask run) in the terminal (default port is 5000)
 from flask import Flask
 # We can import home directly from the routes package because we defined it in the routes __init__.py file
 # If we didnt import and rename the home blueprint in the routes __init__.py file, we would have to import it like this:
@@ -15,6 +16,8 @@ from flask import Flask
 from app.routes import home, dashboard
 # importing the init_db() function to
 from app.db import init_db
+# import the filters.py file
+from app.utils import filters
 
 # Note that a 2x space indentation signifies a code block in Python, not curly braces
 # Here we a new app variable and set some initial Flask configuration
@@ -28,6 +31,10 @@ def create_app(test_config=None):
     # SECRET_KEY is used by Flask and extensions to keep data safe
     SECRET_KEY='super_secret_key'
   )
+  # Register filters with the Jinja template engine
+  app.jinja_env.filters['format_url'] = filters.format_url
+  app.jinja_env.filters['format_date'] = filters.format_date
+  app.jinja_env.filters['format_plural'] = filters.format_plural
 
 # Here we register the home blueprint with the app
 # Blueprint is just a way to organize related routes together
@@ -45,9 +52,9 @@ def create_app(test_config=None):
 
   return app
 
-# Access the MySQL shell by running (mysql -u root -p) in the terminal pw sql
+# Access the MySQL shell by running (mysql -u root -p) in the terminal enter password
 # To create a new database, run (CREATE DATABASE python_news_db;) then exit
 # We're doing the rest in Python and an ROM called SQLAlchemy which we need to install
 # Start virtual server by (. venv/bin/activate) & then Run (pip install sqlalchemy pymysql python-dotenv) to install necessary dependencies
 # Next, create a .env file in the root directory and add the following:
-# (DB_URL=mysql+pymysql://root:sql@localhost/python_news_db)
+# (DB_URL=mysql+pymysql://root:(Password)@localhost/python_news_db)
