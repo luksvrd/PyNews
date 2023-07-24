@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, session, redirect
 # home.py is a Python Module because it has a .py extension & its belongs to the routes package
 from app.models import Post
 from app.db import get_db
@@ -18,15 +18,22 @@ def index():
   # Query to fetch all posts from the db and order them by their created_at attribute in descending order. 
   # The result of the query is assigned to the posts variable.
   posts = db.query(Post).order_by(Post.created_at.desc()).all()
-  # The render_template() function is provided by Flask and is used to generate HTML content using Jinja2 templating engine.
+  # The render_template() function is provided by Flask and used to generate HTML content using Jinja2 templating engine.
   # pass the 'homepage.html' template and the posts variable as template parameters
+  # pass liggedIn session to the template
   return render_template(
     'homepage.html',
-    posts=posts
+    posts=posts,
+    loggedIn=session.get('loggedIn')
   )
 
 @bp.route('/login')
 def login():
+  # not logged in yet
+  # If not loggedIn render login.html, if yes redirect to homepage
+  if session.get('loggedIn') is None:
+    return render_template('login.html')
+  
   return render_template('login.html')
 
 # <id> is a dynamic parameter that will captured from the URL and passed as an argument to the function
@@ -42,7 +49,8 @@ def single(id):
   # pass the 'single-post.html' template and the post variable as template parameters
   return render_template(
     'single-post.html',
-    post=post
+    post=post,
+    loggedIn=session.get('loggedIn')
   )
 
 # You can import any variables or functions defined in Python Modules into other modules or files
