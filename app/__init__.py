@@ -18,6 +18,7 @@ from app.routes import home, dashboard
 from app.db import init_db
 # import the filters.py file
 from app.utils import filters
+from app.routes import home, dashboard, api
 
 # Note that a 2x space indentation signifies a code block in Python, not curly braces
 # Here we a new app variable and set some initial Flask configuration
@@ -47,6 +48,7 @@ def create_app(test_config=None):
   # after registering each blueprint, in the terminal run export FLASK_APP=app then python3 -m flask run
   app.register_blueprint(home)
   app.register_blueprint(dashboard)
+  app.register_blueprint(api)
   # Call the init_db() function to initialize the database
   init_db(app)
 
