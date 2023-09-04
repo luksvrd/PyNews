@@ -44,3 +44,9 @@ class User(Base):
   # MySQL shell: USE python_news_db; + SELECT * FROM users;
     return bcrypt.hashpw(password.encode('utf-8'), salt)
   
+  # checkpw() method to compare incoming pw (pw parameter) with the hashed pw saved on User object (self.password)
+  def verify_password(self, password):
+    return bcrypt.checkpw(
+      password.encode('utf-8'),
+      self.password.encode('utf-8')
+    )

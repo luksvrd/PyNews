@@ -4,3 +4,5 @@
 from .home import bp as home
 
 from .dashboard import bp as dashboard
+# importing the api blueprint 
+from .api import bp as api

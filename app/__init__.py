@@ -13,7 +13,7 @@ from flask import Flask
 # We can import home directly from the routes package because we defined it in the routes __init__.py file
 # If we didnt import and rename the home blueprint in the routes __init__.py file, we would have to import it like this:
 # from app.routes.home import bp as home
-from app.routes import home, dashboard
+from app.routes import home, dashboard, api
 # importing the init_db() function to
 from app.db import init_db
 # import the filters.py file
@@ -47,6 +47,7 @@ def create_app(test_config=None):
   # after registering each blueprint, in the terminal run export FLASK_APP=app then python3 -m flask run
   app.register_blueprint(home)
   app.register_blueprint(dashboard)
+  app.register_blueprint(api)
   # Call the init_db() function to initialize the database
   init_db(app)
 
