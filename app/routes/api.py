@@ -52,3 +52,31 @@ def signup():
   session['loggedIn'] = True
   # Using jsonify() (Flask func) to send back JSON notation that includes ID of a new user
   return jsonify(id = newUser.id)
+
+# Add logout POST route to clear session data & return 204 status code (no content) 
+@bp.route('/users/logout', methods=['POST'])
+def logout():
+  # remove session variables
+  session.clear()
+  return '', 204
+
+# 
+@bp.route('/users/login', methods=['POST'])
+def login():
+  data = request.get_json()
+  db = get_db()
+
+  try:
+    user = db.query(User).filter(User.email == data['email']).one()
+  except:
+    print(sys.exc_info()[0])
+    
+    # if user is found, check password and start session
+  if user.verify_password(data['password']) == False:
+    session.clear()
+    session['user_id'] = user.id
+    session['loggedIn'] = True
+    return jsonify(id = user.id)
+  
+  return jsonify(message = 'Incorrect credentials'), 400
+  

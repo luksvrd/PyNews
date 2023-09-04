@@ -30,11 +30,11 @@ def index():
 @bp.route('/login')
 def login():
   # not logged in yet
-  # If not loggedIn render login.html, if yes redirect to homepage
+    # If not loggedIn render login.html, if yes redirect to homepage
   if session.get('loggedIn') is None:
     return render_template('login.html')
-  
-  return render_template('login.html')
+
+  return redirect('/dashboard')
 
 # <id> is a dynamic parameter that will captured from the URL and passed as an argument to the function
 @bp.route('/post/<id>')
