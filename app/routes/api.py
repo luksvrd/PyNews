@@ -6,7 +6,7 @@
 # session to keep track of user's logged in state (this corresponds to req.session in Express)
 from flask import Blueprint, request, jsonify, session
 # Importing the User model
-from app.models import User
+from app.models import User, Post, Comment, Vote
 # get_db function to get database connection
 from app.db import get_db
 # Importing sys module to print error messages to the terminal
@@ -80,3 +80,51 @@ def login():
   
   return jsonify(message = 'Incorrect credentials'), 400
   
+# Connection to DB
+@bp.route('/comments', methods=['POST'])
+def comment():
+  data = request.get_json()
+  db = get_db()
+
+  try:
+  # create a new comment
+    newComment = Comment(
+      # The comment_text & post_id properties are coming from the front end, the session stores the user_id
+      comment_text = data['comment_text'],
+      post_id = data['post_id'],
+      user_id = session.get('user_id')
+    )
+
+    db.add(newComment)
+    # db.commit() method performs the INSERT against the database & db.rollback if it fails
+    db.commit()
+  except:
+    print(sys.exc_info()[0])
+
+    db.rollback()
+    return jsonify(message = 'Comment failed'), 500
+  # if the except block doesnt run, the comment was successfully created, so we can return the id of the new comment
+  return jsonify(id = newComment.id)
+
+# An upvote creates a new record in the Votes table but hte Post model ultimately uses that info. So defining this action as a PUT route
+@bp.route('/posts/upvote', methods=['PUT'])
+def upvote():
+  data = request.get_json()
+  db = get_db()
+
+  try:
+    # create a new vote with incoming id and session id
+    newVote = Vote(
+      post_id = data['post_id'],
+      user_id = session.get('user_id')
+    )
+
+    db.add(newVote)
+    db.commit()
+  except:
+    print(sys.exc_info()[0])
+
+    db.rollback()
+    return jsonify(message = 'Upvote failed'), 500
+
+  return '', 204
