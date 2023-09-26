@@ -6,9 +6,9 @@ News Feed application - a website where users can post, upvote, and comment on l
 
 -[Deployed](https://ljv-python-newsfeed-af7bd51bba2f.herokuapp.com/)
 
-![Login](app/src/login.jpg)
-![Homepage](app/src/homepage.jpg)
-![Dashboard](app/src/dashboard.jpg)
+![Login](src/login.jpg)
+![Homepage](src/homepage.jpg)
+![Dashboard](src/dashboard.jpg)
 
 ## Table of Contents
 
