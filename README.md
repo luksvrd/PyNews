@@ -26,7 +26,7 @@ News Feed application - a website where users can post, upvote, and comment on l
 
 ## Description
 
-Originally, this app was built using Node.js & I used Python to refactor/create the app and the Python Flask framework to create the application's views. The work involved connecting to a relational database using SQLAlchemy, providing user authentication using Flask's built-in session functionality, and was deploying to the cloud using Heroku.
+Originally, this app was built using Node.js and I used Python to refactor/create the app and the Python Flask framework to create the application's views. The work involved connecting to a relational database using SQLAlchemy, providing user authentication using Flask's built-in session functionality, and was deploying to the cloud using Heroku.
 
 Upon completing this exercise, I learned how to:
 
@@ -75,7 +75,7 @@ Upon completing this exercise, I learned how to:
 
 ## Installation
 
-This application assumes you have a 'complete dev environment' setup - a terminal & an IDE such as VS Code. However, for this application, you will need Python3 or later. To find out what version is installed on your computer, run `python3 --version` in your terminal. If you have Python 3.4 or later, you're good to go! 
+This application assumes you have a 'complete dev environment' setup - a terminal and an IDE such as VS Code. However, for this application, you will need Python3 or later. To find out what version is installed on your computer, run `python3 --version` in your terminal. If you have Python 3.4 or later, you're good to go! 
 If not, run `brew help` -- if you see an error you need to install the following:
 - Apple's Xcode tools (`xcode-select --install`) 
 - Homebrew (`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"`). 
@@ -141,7 +141,7 @@ If you have any questions about the repo, open an [issue](https://github.com/luk
 
 ## Credits
 
-Credit to edX Boot Camps LLC for the starter code & continued education modules.
+Credit to edX Boot Camps LLC for the starter code and continued education modules.
 
 ## Contributors
 
