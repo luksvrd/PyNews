@@ -2,7 +2,7 @@
 
 News Feed application - a website where users can post, upvote, and comment on links to news articles. 
 
--[Repository](https://github.com/luksvrd/Rally)
+-[Repository](https://github.com/luksvrd/PyNews)
 
 -[Deployed](https://ljv-python-newsfeed-af7bd51bba2f.herokuapp.com/)
 
